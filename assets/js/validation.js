@@ -134,19 +134,16 @@ $("#submit-form").submit(function (e) {
     emailValidated &&
     messageValidated
   ) {
-    e.preventDefault();
-    $.ajax({
-      url: "https://script.google.com/macros/s/AKfycbz0UDOd3o2UwkTTTAwd-RjqQe7m4oeh9o5BO-JAr0YhRDTJvQQyDjZrHfU0sqc63F7p9A/exec",
-      data: $("#submit-form").serialize(),
-      method: "post",
-      success: function (response) {
-        alert("Form submitted successfully");
-        window.location.reload();
-      },
-      error: function (err) {
-        alert("Something Error");
-      },
-    });
+    
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxFryu-gC_mRzVWlZoR22UmkBijC2YculM008K41MVySdb0haivG0lDBML3bGlgYNespQ/exec'
+    const form = document.forms['submit-form']
+
+  form.addEventListener('submit', e => {
+    e.preventDefault()
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+  })
   } else {
     e.preventDefault();
   }
